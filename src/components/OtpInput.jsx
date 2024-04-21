@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 //import React from "react";
 import {useState,useRef, useEffect} from 'react'
 export const OtpInput = ({length=4,onOtpSubmit=()=>{}}) => {
@@ -28,10 +29,20 @@ export const OtpInput = ({length=4,onOtpSubmit=()=>{}}) => {
             inputRefs.current[index+1].focus()
         }
     }
-    const handleClick = () => {
+    const handleClick = (index) => {
+        inputRefs.current[index].setSelectionRange(1, 1)
+        
+        //if previous input is empty
+        if (index > 0 && !otp[index - 1]) {
+            inputRefs.current[otp.indexOf('')].focus()
+        }
         
     }
-    const handleKeyDown = () => {
+    const handleKeyDown = (e, index) => {
+        if (e.key === 'Backspace' && !otp[index] && !otp[index] > 0 && inputRefs.current[index - 1]) {
+            //moving focus to the previous input when pressing backspace
+            inputRefs.current[index-1].focus()
+        }
         
     }
     return <div>
